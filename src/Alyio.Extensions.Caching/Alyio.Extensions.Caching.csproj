@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <VersionPrefix>1.41.61</VersionPrefix>
+    <Copyright>Copyright (c) 2022 ROY</Copyright>
+    <Description>Extension methods for Microsoft.Extensions.Caching.Distributed.IDistributedCache to DeSerialize POCO from/to byte array.</Description>
+    <Authors>ROY</Authors>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageId>Alyio.Extensions.Caching</PackageId>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/qqbuby/Alyio.Extensions.Caching</PackageProjectUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/qqbuby/Alyio.Extensions.Caching</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.0.0" />
+    <PackageReference Include="System.Text.Json" Version="6.0.0" />
+  </ItemGroup>
+</Project>
