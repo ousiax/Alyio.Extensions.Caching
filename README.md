@@ -4,6 +4,10 @@
 
 *Alyio.Extensions.Caching* provides extension methods for converting a POCO to an byte array, and set into redis.
 
+```sh
+dotnet add package Alyio.Extensions.Caching --version 1.41.61
+```
+
 ```cs
 using System.Threading;
 using System.Threading.Tasks;
