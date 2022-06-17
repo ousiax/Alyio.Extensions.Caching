@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>10.0</LangVersion>
     <Nullable>enable</Nullable>
-    <VersionPrefix>1.41.61</VersionPrefix>
+    <VersionPrefix>1.41.71</VersionPrefix>
     <Copyright>Copyright (c) 2022 ROY</Copyright>
     <Description>Extension methods for Microsoft.Extensions.Caching.Distributed.IDistributedCache to DeSerialize POCO from/to byte array.</Description>
     <Authors>ROY</Authors>
@@ -16,6 +16,7 @@
     <IncludeSymbols>true</IncludeSymbols>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/qqbuby/Alyio.Extensions.Caching</RepositoryUrl>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>

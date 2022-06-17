@@ -1,6 +1,5 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Distributed;
+﻿using Microsoft.Extensions.Caching.Distributed;
+using static Alyio.Extensions.Caching.JsonDeSerializer;
 
 namespace Alyio.Extensions.Caching;
 
@@ -37,16 +36,16 @@ public static partial class DistributedCacheExtensions
     /// <param name="key"></param>
     /// <param name="token"></param>
     /// <returns></returns>
-    public static async Task<T?> GetAsync<T>(this IDistributedCache cache, string key, CancellationToken token = default)
+    public static async ValueTask<T?> GetAsync<T>(this IDistributedCache cache, string key, CancellationToken token = default)
     {
-        var bytes = await cache.GetAsync(key, token);
+        var bytes = await cache.GetAsync(key, token).ConfigureAwait(false);
         if (bytes == null)
         {
             return default;
         }
         else
         {
-            return await DeserializeAsync<T>(bytes);
+            return await DeserializeAsync<T>(bytes).ConfigureAwait(false);
         }
     }
 
@@ -60,7 +59,7 @@ public static partial class DistributedCacheExtensions
     /// <param name="options"></param>
     public static void Set<T>(this IDistributedCache cache, string key, T value, DistributedCacheEntryOptions options)
     {
-        var bytes = SerializeAsync<T>(value).Result;
+        var bytes = SerializeAsync(value).Result;
         cache.Set(key, bytes, options);
     }
 
@@ -74,9 +73,9 @@ public static partial class DistributedCacheExtensions
     /// <param name="options"></param>
     /// <param name="token"></param>
     /// <returns></returns>
-    public static async Task SetAsync<T>(this IDistributedCache cache, string key, T value, DistributedCacheEntryOptions options, CancellationToken token = default)
+    public static async ValueTask SetAsync<T>(this IDistributedCache cache, string key, T value, DistributedCacheEntryOptions options, CancellationToken token = default)
     {
-        var bytes = await SerializeAsync<T>(value);
-        await cache.SetAsync(key, bytes, options, token);
+        var bytes = await SerializeAsync(value).ConfigureAwait(false);
+        await cache.SetAsync(key, bytes, options, token).ConfigureAwait(false);
     }
 }

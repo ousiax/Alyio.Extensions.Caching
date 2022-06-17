@@ -1,7 +1,5 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Distributed;
+﻿using Microsoft.Extensions.Caching.Distributed;
+using static Alyio.Extensions.Caching.JsonDeSerializer;
 
 namespace Alyio.Extensions.Caching;
 
@@ -16,7 +14,7 @@ public static partial class DistributedCacheExtensions
     /// <typeparam name="T"></typeparam>
     /// <param name="cache"></param>
     /// <param name="key"></param>
-    /// <returns></returns>
+    /// <returns>A tuple (null, error) is returned if some exception occured.</returns>
     public static (T? value, string? error) TryGet<T>(this IDistributedCache cache, string key)
     {
         try
@@ -44,15 +42,15 @@ public static partial class DistributedCacheExtensions
     /// <param name="cache"></param>
     /// <param name="key"></param>
     /// <param name="token"></param>
-    /// <returns></returns>
-    public static async Task<(T? value, string? error)> TryGetAsync<T>(this IDistributedCache cache, string key, CancellationToken token = default)
+    /// <returns>A tuple (null, error) is returned if some exception occured.</returns>
+    public static async ValueTask<(T? value, string? error)> TryGetAsync<T>(this IDistributedCache cache, string key, CancellationToken token = default)
     {
         try
         {
-            var bytes = await cache.GetAsync(key, token);
+            var bytes = await cache.GetAsync(key, token).ConfigureAwait(false);
             if (bytes != null)
             {
-                var value = await DeserializeAsync<T>(bytes);
+                var value = await DeserializeAsync<T>(bytes).ConfigureAwait(false);
                 return (value, null);
             }
 
@@ -72,11 +70,12 @@ public static partial class DistributedCacheExtensions
     /// <param name="key"></param>
     /// <param name="value"></param>
     /// <param name="options"></param>
+    /// <returns>An error is returned if value was not set successfully; otherwise null.</returns>
     public static string? TrySet<T>(this IDistributedCache cache, string key, T value, DistributedCacheEntryOptions options)
     {
         try
         {
-            var bytes = SerializeAsync<T>(value).Result;
+            var bytes = SerializeAsync(value).Result;
             cache.Set(key, bytes, options);
 
             return null;
@@ -96,13 +95,13 @@ public static partial class DistributedCacheExtensions
     /// <param name="value"></param>
     /// <param name="options"></param>
     /// <param name="token"></param>
-    /// <returns></returns>
-    public static async Task<string?> TrySetAsync<T>(this IDistributedCache cache, string key, T value, DistributedCacheEntryOptions options, CancellationToken token = default)
+    /// <returns>An error is returned if value was not set successfully; otherwise null.</returns>
+    public static async ValueTask<string?> TrySetAsync<T>(this IDistributedCache cache, string key, T value, DistributedCacheEntryOptions options, CancellationToken token = default)
     {
         try
         {
-            var bytes = await SerializeAsync<T>(value);
-            await cache.SetAsync(key, bytes, options, token);
+            var bytes = await SerializeAsync(value).ConfigureAwait(false);
+            await cache.SetAsync(key, bytes, options, token).ConfigureAwait(false);
 
             return null;
         }
