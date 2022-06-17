@@ -1,5 +1,8 @@
-﻿using System.Text.Json;
+﻿using System.Runtime.CompilerServices;
+using System.Text.Json;
 using System.Text.Json.Serialization;
+
+[assembly: InternalsVisibleTo("Benchmarks")]
 
 namespace Alyio.Extensions.Caching;
 

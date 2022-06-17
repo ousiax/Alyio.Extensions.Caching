@@ -1,23 +1,24 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{69AB4C6F-2759-421F-ABEB-3E2A958416F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alyio.Extensions.Caching", "src\Alyio.Extensions.Caching\Alyio.Extensions.Caching.csproj", "{CC2E2053-EB75-4B60-89C6-71E53E728902}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alyio.Extensions.Caching", "src\Alyio.Extensions.Caching\Alyio.Extensions.Caching.csproj", "{CC2E2053-EB75-4B60-89C6-71E53E728902}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{798B6096-04A5-429F-9C90-A08D492B0505}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alyio.Extensions.Caching.Tests", "test\Alyio.Extensions.Caching.Tests\Alyio.Extensions.Caching.Tests.csproj", "{E4E1B08B-FDDC-47E0-B50A-B70C05110484}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alyio.Extensions.Caching.Tests", "test\Alyio.Extensions.Caching.Tests\Alyio.Extensions.Caching.Tests.csproj", "{E4E1B08B-FDDC-47E0-B50A-B70C05110484}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmarks", "benchmarks", "{209F1094-B2AF-477B-A922-9DAB99E9D898}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks", "benchmarks\Benchmarks\Benchmarks.csproj", "{1F067D74-0D04-484E-8EB0-41974AF5BB70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{CC2E2053-EB75-4B60-89C6-71E53E728902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -28,9 +29,20 @@ Global
 		{E4E1B08B-FDDC-47E0-B50A-B70C05110484}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4E1B08B-FDDC-47E0-B50A-B70C05110484}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4E1B08B-FDDC-47E0-B50A-B70C05110484}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F067D74-0D04-484E-8EB0-41974AF5BB70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F067D74-0D04-484E-8EB0-41974AF5BB70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F067D74-0D04-484E-8EB0-41974AF5BB70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F067D74-0D04-484E-8EB0-41974AF5BB70}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{CC2E2053-EB75-4B60-89C6-71E53E728902} = {69AB4C6F-2759-421F-ABEB-3E2A958416F6}
 		{E4E1B08B-FDDC-47E0-B50A-B70C05110484} = {798B6096-04A5-429F-9C90-A08D492B0505}
+		{1F067D74-0D04-484E-8EB0-41974AF5BB70} = {209F1094-B2AF-477B-A922-9DAB99E9D898}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {44A424BC-F35F-4FC4-991F-75DC03028F7D}
 	EndGlobalSection
 EndGlobal
