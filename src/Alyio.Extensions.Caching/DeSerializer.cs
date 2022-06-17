@@ -1,9 +1,6 @@
-﻿using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-
-[assembly: InternalsVisibleTo("Benchmarks")]
+using static Alyio.Extensions.Caching.SimpleDeSerializer;
 
 namespace Alyio.Extensions.Caching;
 
@@ -11,11 +8,16 @@ internal static class DeSerializer
 {
     private static readonly JsonSerializerOptions _jsonSerializerOptions = new() { ReferenceHandler = ReferenceHandler.Preserve };
 
-    public static async ValueTask<byte[]> SerializeAsync<T>(T data)
+    public static async ValueTask<byte[]> SerializeAsync<T>(T? data)
     {
-        if (typeof(T) == typeof(string))
+        if (data is null)
         {
-            return Encoding.UTF8.GetBytes((string)Convert.ChangeType(data, typeof(string)));
+            return new byte[] { };
+        }
+
+        if (TryGetBytes(data, out var bytes))
+        {
+            return bytes;
         }
 
         using var ms = new MemoryStream();
@@ -25,9 +27,9 @@ internal static class DeSerializer
 
     public static async ValueTask<T?> DeserializeAsync<T>(byte[] bytes)
     {
-        if (typeof(T) == typeof(string))
+        if (TryGetValue<T>(bytes, out var val))
         {
-            return (T)Convert.ChangeType(Encoding.UTF8.GetString(bytes), typeof(T));
+            return val;
         }
 
         return await JsonSerializer.DeserializeAsync<T>(new MemoryStream(bytes), _jsonSerializerOptions).ConfigureAwait(false);
