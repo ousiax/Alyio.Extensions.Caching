@@ -5,90 +5,38 @@
 *Alyio.Extensions.Caching* provides extension methods for converting a POCO to an byte array, and set into redis.
 
 ```sh
-dotnet add package Alyio.Extensions.Caching --version 1.41.61
+dotnet add package Alyio.Extensions.Caching --version 1.42.17
 ```
 
 ```cs
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.DependencyInjection;
+using Alyio.Extensions.Caching;
 
-namespace Alyio.Extensions.Caching;
+var services = new ServiceCollection()
+    .AddDistributedMemoryCache()
+    .BuildServiceProvider();
 
-/// <summary>
-/// Extension methods for <see cref="IDistributedCache"/>.
-/// </summary>
-public static partial class DistributedCacheExtensions
+var cache = services.GetRequiredService<IDistributedCache>();
+
+cache.Set("string", "value", new DistributedCacheEntryOptions { });
+cache.Get<string>("string");
+
+await cache.SetAsync("string", "value", new DistributedCacheEntryOptions { });
+await cache.GetAsync<string>("string");
+
+await cache.SetAsync("double", 1_024d, new DistributedCacheEntryOptions { });
+await cache.GetAsync<double>("double");
+
+await cache.SetAsync("cacheobj", new CacheObj { MyProperty1 = 1_024 }, new DistributedCacheEntryOptions { });
+await cache.GetAsync<CacheObj>("cacheobj");
+
+// ....
+
+class CacheObj
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="cache"></param>
-    /// <param name="key"></param>
-    /// <returns></returns>
-    public static T? Get<T>(this IDistributedCache cache, string key)
-    {
-        var bytes = cache.Get(key);
-        if (bytes == null)
-        {
-            return default;
-        }
-        else
-        {
-            return DeserializeAsync<T>(bytes).Result;
-        }
-    }
+    public int MyProperty1 { get; set; }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="cache"></param>
-    /// <param name="key"></param>
-    /// <param name="token"></param>
-    /// <returns></returns>
-    public static async Task<T?> GetAsync<T>(this IDistributedCache cache, string key, CancellationToken token = default)
-    {
-        var bytes = await cache.GetAsync(key, token);
-        if (bytes == null)
-        {
-            return default;
-        }
-        else
-        {
-            return await DeserializeAsync<T>(bytes);
-        }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="cache"></param>
-    /// <param name="key"></param>
-    /// <param name="value"></param>
-    /// <param name="options"></param>
-    public static void Set<T>(this IDistributedCache cache, string key, T value, DistributedCacheEntryOptions options)
-    {
-        var bytes = SerializeAsync<T>(value).Result;
-        cache.Set(key, bytes, options);
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="cache"></param>
-    /// <param name="key"></param>
-    /// <param name="value"></param>
-    /// <param name="options"></param>
-    /// <param name="token"></param>
-    /// <returns></returns>
-    public static async Task SetAsync<T>(this IDistributedCache cache, string key, T value, DistributedCacheEntryOptions options, CancellationToken token = default)
-    {
-        var bytes = await SerializeAsync<T>(value);
-        await cache.SetAsync(key, bytes, options, token);
-    }
+    public string? MyProperty2 { get; set; }
 }
 ```
