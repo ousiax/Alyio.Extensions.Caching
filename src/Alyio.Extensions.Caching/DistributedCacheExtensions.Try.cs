@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
-using static Alyio.Extensions.Caching.JsonDeSerializer;
+using static Alyio.Extensions.Caching.DeSerializer;
 
 namespace Alyio.Extensions.Caching;
 
