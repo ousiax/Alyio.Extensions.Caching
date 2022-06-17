@@ -43,7 +43,7 @@ namespace Alyio.Extensions.Caching.Tests
 
             foreach (var data in datas)
             {
-                Assert.False(TryGetBytes(data, out var bytes));
+                Assert.False(TryGetBytes(data, out _));
             }
         }
     }
