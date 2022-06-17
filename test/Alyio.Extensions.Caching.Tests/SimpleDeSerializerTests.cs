@@ -24,6 +24,19 @@ namespace Alyio.Extensions.Caching.Tests
         }
 
         [Fact]
+        public void TestDeSerDecimal()
+        {
+            var datas = new[] { decimal.Zero, decimal.MinValue, decimal.MaxValue };
+
+            foreach (var data in datas)
+            {
+                Assert.True(TryGetBytes(data, out var bytes));
+                Assert.True(TryGetValue<decimal>(bytes!, out var val));
+                Assert.Equal(data, val);
+            }
+        }
+
+        [Fact]
         public void TestDeSerNotSupported()
         {
             var datas = new object[] { IntPtr.Zero, UIntPtr.Zero, new { A = 3 }, DateTime.UtcNow };
