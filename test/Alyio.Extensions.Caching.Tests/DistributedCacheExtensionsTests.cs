@@ -86,27 +86,18 @@ public class DistributedCacheExtensionsTests
     }
 
     [Fact]
-    public void Test_Get_Set_Throw_ArgumentNullException_Sync()
+    public void Test_Get_Set_Sync()
     {
         // Arrange
         using var services = new ServiceCollection().AddDistributedMemoryCache().BuildServiceProvider();
         var cache = services.GetRequiredService<IDistributedCache>();
-        var options = new DistributedCacheEntryOptions { };
+        var key = "key";
+        var val = "hello 世界！";
 
-        Assert.Throws<ArgumentNullException>(() =>
-        {
-            cache.Get<string>(null);
-        });
+        cache.Set(key, val, new DistributedCacheEntryOptions { });
+        var actual = cache.Get<string>(key);
 
-        Assert.Throws<ArgumentNullException>(() =>
-        {
-            cache.Set<string>(null, string.Empty, options);
-        });
-
-        Assert.Throws<ArgumentNullException>(() =>
-        {
-            cache.Set<string>(string.Empty, null, options);
-        });
+        Assert.Equal(val, actual);
     }
 
     [Fact]
@@ -134,18 +125,27 @@ public class DistributedCacheExtensionsTests
     }
 
     [Fact]
-    public void Test_Get_Set_Sync()
+    public void Test_Get_Set_Throw_ArgumentNullException_Sync()
     {
         // Arrange
         using var services = new ServiceCollection().AddDistributedMemoryCache().BuildServiceProvider();
         var cache = services.GetRequiredService<IDistributedCache>();
-        var key = "key";
-        var val = "hello 世界！";
+        var options = new DistributedCacheEntryOptions { };
 
-        cache.Set(key, val, new DistributedCacheEntryOptions { });
-        var actual = cache.Get<string>(key);
+        Assert.Throws<ArgumentNullException>(() =>
+        {
+            cache.Get<string>(null);
+        });
 
-        Assert.Equal(val, actual);
+        Assert.Throws<ArgumentNullException>(() =>
+        {
+            cache.Set<string>(null, string.Empty, options);
+        });
+
+        Assert.Throws<ArgumentNullException>(() =>
+        {
+            cache.Set<string>(string.Empty, null, options);
+        });
     }
 
     [Fact]
@@ -195,6 +195,63 @@ public class DistributedCacheExtensionsTests
 
         var err = await cache.TrySetAsync(key, val, new DistributedCacheEntryOptions { });
         var (actual, err2) = await cache.TryGetAsync<string>(key);
+
+        Assert.NotNull(err);
+        Assert.NotNull(err2);
+        Assert.Null(actual);
+    }
+
+    [Fact]
+    public void Test_Try_Get_Set_with_error_Sync()
+    {
+        // Arrange
+        using var services = new ServiceCollection()
+            .AddSingleton<IDistributedCache, NotImplementedDistributedCache>()
+            .BuildServiceProvider();
+        var cache = services.GetRequiredService<IDistributedCache>();
+        var key = "key";
+        var val = "hello 世界！";
+
+        var err = cache.TrySet(key, val, new DistributedCacheEntryOptions { });
+        var (actual, err2) = cache.TryGet<string>(key);
+
+        Assert.NotNull(err);
+        Assert.NotNull(err2);
+        Assert.Null(actual);
+    }
+
+    [Fact]
+    public async Task Test_Try_Get_Set_with_EmptyOption_Async()
+    {
+        // Arrange
+        using var services = new ServiceCollection()
+            .AddSingleton<IDistributedCache, NotImplementedDistributedCache>()
+            .BuildServiceProvider();
+        var cache = services.GetRequiredService<IDistributedCache>();
+        var key = "key";
+        var val = "hello 世界！";
+
+        var err = await cache.TrySetAsync(key, val);
+        var (actual, err2) = await cache.TryGetAsync<string>(key);
+
+        Assert.NotNull(err);
+        Assert.NotNull(err2);
+        Assert.Null(actual);
+    }
+
+    [Fact]
+    public void Test_Try_Get_Set_with_EmptyOption_Sync()
+    {
+        // Arrange
+        using var services = new ServiceCollection()
+            .AddSingleton<IDistributedCache, NotImplementedDistributedCache>()
+            .BuildServiceProvider();
+        var cache = services.GetRequiredService<IDistributedCache>();
+        var key = "key";
+        var val = "hello 世界！";
+
+        var err = cache.TrySet(key, val);
+        var (actual, err2) = cache.TryGet<string>(key);
 
         Assert.NotNull(err);
         Assert.NotNull(err2);

@@ -8,6 +8,8 @@ namespace Alyio.Extensions.Caching;
 /// </summary>
 public static partial class DistributedCacheExtensions
 {
+    private readonly static DistributedCacheEntryOptions EmptyOptions = new DistributedCacheEntryOptions { };
+
     /// <summary>
     /// Gets a value from the specified cache with the specified key.
     /// </summary>
@@ -68,9 +70,9 @@ public static partial class DistributedCacheExtensions
     /// <param name="cache">The cache in which to store the data.</param>
     /// <param name="key">The key to store the data in.</param>
     /// <param name="value">The data to store in the cache.</param>
-    /// <param name="options">The cache options for the entry.</param>
+    /// <param name="options">Optional. The cache options for the entry.</param>
     /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="key"/> or <paramref name="value"/> is null.</exception>
-    public static void Set<T>(this IDistributedCache cache, string? key, T? value, DistributedCacheEntryOptions options)
+    public static void Set<T>(this IDistributedCache cache, string? key, T? value, DistributedCacheEntryOptions? options = default)
     {
         if (key is null)
         {
@@ -83,7 +85,7 @@ public static partial class DistributedCacheExtensions
         }
 
         var bytes = SerializeAsync(value).Result;
-        cache.Set(key, bytes, options);
+        cache.Set(key, bytes, options ?? EmptyOptions);
     }
 
     /// <summary>
@@ -93,11 +95,11 @@ public static partial class DistributedCacheExtensions
     /// <param name="cache">The cache in which to store the data.</param>
     /// <param name="key">The key to store the data in.</param>
     /// <param name="value">The data to store in the cache.</param>
-    /// <param name="options">The cache options for the entry.</param>
+    /// <param name="options">Optional. The cache options for the entry.</param>
     /// <param name="token">Optional. A <see cref="CancellationToken" /> to cancel the operation.</param>
     /// <exception cref="ArgumentNullException">Thrown when key or value is null.</exception>
     /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="key"/> or <paramref name="value"/> is null.</exception>
-    public static async ValueTask SetAsync<T>(this IDistributedCache cache, string? key, T? value, DistributedCacheEntryOptions options, CancellationToken token = default)
+    public static async ValueTask SetAsync<T>(this IDistributedCache cache, string? key, T? value, DistributedCacheEntryOptions? options = default, CancellationToken token = default)
     {
         if (key is null)
         {
@@ -110,6 +112,6 @@ public static partial class DistributedCacheExtensions
         }
 
         var bytes = await SerializeAsync(value).ConfigureAwait(false);
-        await cache.SetAsync(key, bytes, options, token).ConfigureAwait(false);
+        await cache.SetAsync(key, bytes, options ?? EmptyOptions, token).ConfigureAwait(false);
     }
 }

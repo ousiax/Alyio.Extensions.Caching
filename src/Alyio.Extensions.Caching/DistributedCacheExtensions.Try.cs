@@ -71,7 +71,7 @@ public static partial class DistributedCacheExtensions
     /// <param name="value"></param>
     /// <param name="options"></param>
     /// <returns>An error is returned if value was not set successfully; otherwise null.</returns>
-    public static string? TrySet<T>(this IDistributedCache cache, string key, T value, DistributedCacheEntryOptions options)
+    public static string? TrySet<T>(this IDistributedCache cache, string key, T value, DistributedCacheEntryOptions? options = default)
     {
         try
         {
@@ -96,7 +96,7 @@ public static partial class DistributedCacheExtensions
     /// <param name="options"></param>
     /// <param name="token"></param>
     /// <returns>An error is returned if value was not set successfully; otherwise null.</returns>
-    public static async ValueTask<string?> TrySetAsync<T>(this IDistributedCache cache, string key, T value, DistributedCacheEntryOptions options, CancellationToken token = default)
+    public static async ValueTask<string?> TrySetAsync<T>(this IDistributedCache cache, string key, T value, DistributedCacheEntryOptions? options = default, CancellationToken token = default)
     {
         try
         {
