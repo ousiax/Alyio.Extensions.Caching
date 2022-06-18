@@ -1,15 +1,16 @@
-﻿using BenchmarkDotNet.Attributes;
-using System.Text;
+﻿using System.Text;
+using System.Text.Json;
+using BenchmarkDotNet.Attributes;
 using static Alyio.Extensions.Caching.DeSerializer;
 
 namespace Benchmarks;
 
-public class DeSerializerVsUTF8
+public class StringDeSerializerVsUTF8VsJson
 {
     private const int N = 10000;
     private readonly string data;
 
-    public DeSerializerVsUTF8()
+    public StringDeSerializerVsUTF8VsJson()
     {
         var buf = new byte[N];
         new Random(42).NextBytes(buf);
@@ -28,5 +29,12 @@ public class DeSerializerVsUTF8
     {
         var result = Encoding.UTF8.GetBytes(data);
         return Encoding.UTF8.GetString(result);
+    }
+
+    [Benchmark]
+    public string JsonUTF8()
+    {
+        var result = JsonSerializer.SerializeToUtf8Bytes(data, typeof(string));
+        return JsonSerializer.Deserialize<string>(new MemoryStream(result))!;
     }
 }
