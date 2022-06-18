@@ -2,10 +2,10 @@
 
 ![Build Status](https://github.com/qqbuby/Alyio.Extensions.Caching/actions/workflows/ci.yml/badge.svg?branch=main)
 
-*Alyio.Extensions.Caching* provides extension methods for converting a POCO from/to byte array.
+*Alyio.Extensions.Caching* provides extension methods for `IDistributedCache` to serialize a POCO from/to byte array.
 
 ```sh
-dotnet add package Alyio.Extensions.Caching --version 1.42.17
+dotnet add package Alyio.Extensions.Caching --version 2.0.0
 ```
 
 ```cs

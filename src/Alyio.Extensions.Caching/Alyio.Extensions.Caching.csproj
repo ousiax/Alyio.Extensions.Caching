@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>10.0</LangVersion>
     <Nullable>enable</Nullable>
-    <VersionPrefix>1.42.17</VersionPrefix>
+    <VersionPrefix>2.0.0</VersionPrefix>
     <Copyright>Copyright (c) 2022 ROY</Copyright>
     <Description>Extension methods for Microsoft.Extensions.Caching.Distributed.IDistributedCache to DeSerialize POCO from/to byte array.</Description>
     <Authors>ROY</Authors>
