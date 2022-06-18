@@ -19,15 +19,28 @@ var services = new ServiceCollection()
 
 var cache = services.GetRequiredService<IDistributedCache>();
 
+cache.Set("string", "value");
 cache.Set("string", "value", new DistributedCacheEntryOptions { });
+
 cache.Get<string>("string");
 
+await cache.SetAsync("string", "value");
 await cache.SetAsync("string", "value", new DistributedCacheEntryOptions { });
 await cache.GetAsync<string>("string");
 
+cache.Set("double", 1_024d);
+cache.Set("double", 1_024d, new DistributedCacheEntryOptions { });
+cache.Get<double>("double");
+
+await cache.SetAsync("double", 1_024d);
 await cache.SetAsync("double", 1_024d, new DistributedCacheEntryOptions { });
 await cache.GetAsync<double>("double");
 
+cache.Set("cacheobj", new CacheObj { MyProperty1 = 1_024 });
+cache.Set("cacheobj", new CacheObj { MyProperty1 = 1_024 }, new DistributedCacheEntryOptions { });
+cache.Get<CacheObj>("cacheobj");
+
+await cache.SetAsync("cacheobj", new CacheObj { MyProperty1 = 1_024 });
 await cache.SetAsync("cacheobj", new CacheObj { MyProperty1 = 1_024 }, new DistributedCacheEntryOptions { });
 await cache.GetAsync<CacheObj>("cacheobj");
 
