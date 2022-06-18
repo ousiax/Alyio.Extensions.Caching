@@ -10,32 +10,33 @@ internal static class SimpleDeSerializer
 {
     public static bool TryGetBytes<T>(T data, out byte[] bytes)
     {
-        if (typeof(T) == typeof(string))
-        {
-            bytes = Encoding.UTF8.GetBytes((string)Convert.ChangeType(data, typeof(string)));
-            return true;
-        }
-
         try
         {
-            var result = Type.GetTypeCode(typeof(T)) switch
+            bytes = Type.GetTypeCode(typeof(T)) switch
             {
-                TypeCode.Byte or
-                TypeCode.SByte or
-                TypeCode.Boolean or
-                TypeCode.Char or
-                TypeCode.Decimal or
-                TypeCode.Double or
-                TypeCode.Int16 or
-                TypeCode.Int32 or
-                TypeCode.Int64 or
-                TypeCode.Single or
-                TypeCode.UInt16 or
-                TypeCode.UInt32 or
-                TypeCode.UInt64 => Convert.ToString(data, CultureInfo.InvariantCulture),
+                TypeCode.String => Encoding.UTF8.GetBytes((string)Convert.ChangeType(data, typeof(string))),
+
+                TypeCode.Boolean => BitConverter.GetBytes((bool)Convert.ChangeType(data, TypeCode.Boolean)),
+
+                TypeCode.Char => BitConverter.GetBytes((char)Convert.ChangeType(data, TypeCode.Char)),
+
+                TypeCode.Int16 => BitConverter.GetBytes((short)Convert.ChangeType(data, TypeCode.Int16)),
+                TypeCode.Int32 => BitConverter.GetBytes((int)Convert.ChangeType(data, TypeCode.Int32)),
+                TypeCode.Int64 => BitConverter.GetBytes((long)Convert.ChangeType(data, TypeCode.Int64)),
+
+                TypeCode.UInt16 => BitConverter.GetBytes((ushort)Convert.ChangeType(data, TypeCode.UInt16)),
+                TypeCode.UInt32 => BitConverter.GetBytes((uint)Convert.ChangeType(data, TypeCode.UInt32)),
+                TypeCode.UInt64 => BitConverter.GetBytes((ulong)Convert.ChangeType(data, TypeCode.UInt64)),
+
+                TypeCode.Single => BitConverter.GetBytes((float)Convert.ChangeType(data, TypeCode.Single)),
+                TypeCode.Double => BitConverter.GetBytes((double)Convert.ChangeType(data, TypeCode.Double)),
+
+                TypeCode.Decimal => Encoding.UTF8.GetBytes(Convert.ToString(data, CultureInfo.InvariantCulture)),
+
+                TypeCode.DateTime => BitConverter.GetBytes(((DateTime)Convert.ChangeType(data, TypeCode.DateTime)).ToBinary()),
+
                 _ => throw new NotSupportedException()
             };
-            bytes = Encoding.UTF8.GetBytes(result);
             return true;
         }
         catch (NotSupportedException)
@@ -47,30 +48,31 @@ internal static class SimpleDeSerializer
 
     public static bool TryGetValue<T>(byte[] bytes, out T? val)
     {
-        if (typeof(T) == typeof(string))
-        {
-            val = (T)Convert.ChangeType(Encoding.UTF8.GetString(bytes), typeof(T));
-            return true;
-        }
-
         try
         {
-            var strVal = Encoding.UTF8.GetString(bytes);
             var result = Type.GetTypeCode(typeof(T)) switch
             {
-                TypeCode.Byte => Convert.ChangeType(Convert.ToByte(strVal, CultureInfo.InvariantCulture), typeof(T)),
-                TypeCode.SByte => Convert.ToSByte(strVal, CultureInfo.InvariantCulture),
-                TypeCode.Boolean => Convert.ToBoolean(strVal, CultureInfo.InvariantCulture),
-                TypeCode.Char => Convert.ToChar(strVal, CultureInfo.InvariantCulture),
-                TypeCode.Decimal => Convert.ToDecimal(strVal, CultureInfo.InvariantCulture),
-                TypeCode.Double => Convert.ToDouble(strVal, CultureInfo.InvariantCulture),
-                TypeCode.Int16 => Convert.ToInt16(strVal, CultureInfo.InvariantCulture),
-                TypeCode.Int32 => Convert.ToInt32(strVal, CultureInfo.InvariantCulture),
-                TypeCode.Int64 => Convert.ToInt64(strVal, CultureInfo.InvariantCulture),
-                TypeCode.Single => Convert.ToSingle(strVal, CultureInfo.InvariantCulture),
-                TypeCode.UInt16 => Convert.ToUInt16(strVal, CultureInfo.InvariantCulture),
-                TypeCode.UInt32 => Convert.ToUInt32(strVal, CultureInfo.InvariantCulture),
-                TypeCode.UInt64 => Convert.ToUInt64(strVal, CultureInfo.InvariantCulture),
+                TypeCode.String => Convert.ChangeType(Encoding.UTF8.GetString(bytes), typeof(T)),
+
+                TypeCode.Boolean => Convert.ChangeType(BitConverter.ToBoolean(bytes, 0), typeof(T)),
+
+                TypeCode.Char => Convert.ChangeType(BitConverter.ToChar(bytes, 0), typeof(T)),
+
+                TypeCode.Int16 => Convert.ChangeType(BitConverter.ToInt16(bytes, 0), typeof(T)),
+                TypeCode.Int32 => Convert.ChangeType(BitConverter.ToInt32(bytes, 0), typeof(T)),
+                TypeCode.Int64 => Convert.ChangeType(BitConverter.ToInt64(bytes, 0), typeof(T)),
+
+                TypeCode.UInt16 => Convert.ChangeType(BitConverter.ToUInt16(bytes, 0), typeof(T)),
+                TypeCode.UInt32 => Convert.ChangeType(BitConverter.ToUInt32(bytes, 0), typeof(T)),
+                TypeCode.UInt64 => Convert.ChangeType(BitConverter.ToUInt64(bytes, 0), typeof(T)),
+
+                TypeCode.Single => Convert.ChangeType(BitConverter.ToSingle(bytes, 0), typeof(T)),
+                TypeCode.Double => Convert.ChangeType(BitConverter.ToDouble(bytes, 0), typeof(T)),
+
+                TypeCode.Decimal => Convert.ToDecimal(Encoding.UTF8.GetString(bytes), CultureInfo.InvariantCulture),
+
+                TypeCode.DateTime => DateTime.FromBinary(BitConverter.ToInt64(bytes, 0)),
+
                 _ => throw new NotSupportedException()
             };
             val = (T)result;
