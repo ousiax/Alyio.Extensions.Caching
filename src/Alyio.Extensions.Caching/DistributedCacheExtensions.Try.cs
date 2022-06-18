@@ -9,7 +9,7 @@ namespace Alyio.Extensions.Caching;
 public static partial class DistributedCacheExtensions
 {
     /// <summary>
-    /// 
+    /// Try to get a value from the specified cache with the specified key. A return value indicates whether the operation succeeded.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="cache"></param>
@@ -36,7 +36,7 @@ public static partial class DistributedCacheExtensions
     }
 
     /// <summary>
-    /// 
+    /// Asynchronously try to get a value from the specified cache with the specified key.  A return value indicates whether the operation succeeded.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="cache"></param>
@@ -63,7 +63,7 @@ public static partial class DistributedCacheExtensions
     }
 
     /// <summary>
-    /// 
+    /// Try to set a value in the specified cache with the specified key. A return value indicates whether the operation succeeded.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="cache"></param>
@@ -87,7 +87,7 @@ public static partial class DistributedCacheExtensions
     }
 
     /// <summary>
-    /// 
+    /// Asynchronously try to set a value in the specified cache with the specified key. A return value indicates whether the operation succeeded.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="cache"></param>

@@ -86,6 +86,54 @@ public class DistributedCacheExtensionsTests
     }
 
     [Fact]
+    public void Test_Get_Set_Throw_ArgumentNullException_Sync()
+    {
+        // Arrange
+        using var services = new ServiceCollection().AddDistributedMemoryCache().BuildServiceProvider();
+        var cache = services.GetRequiredService<IDistributedCache>();
+        var options = new DistributedCacheEntryOptions { };
+
+        Assert.Throws<ArgumentNullException>(() =>
+        {
+            cache.Get<string>(null);
+        });
+
+        Assert.Throws<ArgumentNullException>(() =>
+        {
+            cache.Set<string>(null, string.Empty, options);
+        });
+
+        Assert.Throws<ArgumentNullException>(() =>
+        {
+            cache.Set<string>(string.Empty, null, options);
+        });
+    }
+
+    [Fact]
+    public async Task Test_Get_Set_Throw_ArgumentNullException_Async()
+    {
+        // Arrange
+        using var services = new ServiceCollection().AddDistributedMemoryCache().BuildServiceProvider();
+        var cache = services.GetRequiredService<IDistributedCache>();
+        var options = new DistributedCacheEntryOptions { };
+
+        await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            {
+                await cache.GetAsync<string>(null);
+            });
+
+        await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+          {
+              await cache.SetAsync<string>(null, string.Empty, options);
+          });
+
+        await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+              {
+                  await cache.SetAsync<string>(string.Empty, null, options);
+              });
+    }
+
+    [Fact]
     public void Test_Get_Set_Sync()
     {
         // Arrange
