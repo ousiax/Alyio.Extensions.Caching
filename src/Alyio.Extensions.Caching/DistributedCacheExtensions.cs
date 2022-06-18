@@ -15,7 +15,7 @@ public static partial class DistributedCacheExtensions
     /// <param name="cache">The cache in which to store the data.</param>
     /// <param name="key">The key to get the stored data for.</param>
     /// <returns>The value from the stored cache key.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when key is null.</exception>
+    /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="key"/> is null.</exception>
     public static T? Get<T>(this IDistributedCache cache, string? key)
     {
         if (key is null)
@@ -40,9 +40,9 @@ public static partial class DistributedCacheExtensions
     /// <typeparam name="T">The target type to deserialize to.</typeparam>
     /// <param name="cache">The cache in which to store the data.</param>
     /// <param name="key">The key to get the stored data for.</param>
-    /// <param name="token">Optional. A System.Threading.CancellationToken to cancel the operation.</param>
+    /// <param name="token">Optional. A <see cref="CancellationToken" /> to cancel the operation.</param>
     /// <returns>A task that gets the value from the stored cache key.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when key is null.</exception>
+    /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="key"/> is null.</exception>
     public static async ValueTask<T?> GetAsync<T>(this IDistributedCache cache, string? key, CancellationToken token = default)
     {
         if (key is null)
@@ -69,7 +69,7 @@ public static partial class DistributedCacheExtensions
     /// <param name="key">The key to store the data in.</param>
     /// <param name="value">The data to store in the cache.</param>
     /// <param name="options">The cache options for the entry.</param>
-    /// <exception cref="ArgumentNullException">Thrown when key or value is null.</exception>
+    /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="key"/> or <paramref name="value"/> is null.</exception>
     public static void Set<T>(this IDistributedCache cache, string? key, T? value, DistributedCacheEntryOptions options)
     {
         if (key is null)
@@ -94,9 +94,9 @@ public static partial class DistributedCacheExtensions
     /// <param name="key">The key to store the data in.</param>
     /// <param name="value">The data to store in the cache.</param>
     /// <param name="options">The cache options for the entry.</param>
-    /// <param name="token">Optional. A System.Threading.CancellationToken to cancel the operation.</param>
+    /// <param name="token">Optional. A <see cref="CancellationToken" /> to cancel the operation.</param>
     /// <exception cref="ArgumentNullException">Thrown when key or value is null.</exception>
-    /// <returns>A task that represents the asynchronous set operation.</returns>
+    /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="key"/> or <paramref name="value"/> is null.</exception>
     public static async ValueTask SetAsync<T>(this IDistributedCache cache, string? key, T? value, DistributedCacheEntryOptions options, CancellationToken token = default)
     {
         if (key is null)
