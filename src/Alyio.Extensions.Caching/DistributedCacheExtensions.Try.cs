@@ -11,9 +11,9 @@ public static partial class DistributedCacheExtensions
     /// <summary>
     /// Try to get a value from the specified cache with the specified key. A return value indicates whether the operation succeeded.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="cache"></param>
-    /// <param name="key"></param>
+    /// <typeparam name="T">The target type to deserialize to.</typeparam>
+    /// <param name="cache">The cache in which to store the data.</param>
+    /// <param name="key">The key to get the stored data for.</param>
     /// <returns>A tuple (null, error) is returned if some exception occured.</returns>
     public static (T? value, string? error) TryGet<T>(this IDistributedCache cache, string key)
     {
@@ -38,10 +38,10 @@ public static partial class DistributedCacheExtensions
     /// <summary>
     /// Asynchronously try to get a value from the specified cache with the specified key.  A return value indicates whether the operation succeeded.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="cache"></param>
-    /// <param name="key"></param>
-    /// <param name="token"></param>
+    /// <typeparam name="T">The target type to deserialize to.</typeparam>
+    /// <param name="cache">The cache in which to store the data.</param>
+    /// <param name="key">The key to get the stored data for.</param>
+    /// <param name="token">Optional. A <see cref="CancellationToken" /> to cancel the operation.</param>
     /// <returns>A tuple (null, error) is returned if some exception occured.</returns>
     public static async ValueTask<(T? value, string? error)> TryGetAsync<T>(this IDistributedCache cache, string key, CancellationToken token = default)
     {
@@ -65,11 +65,11 @@ public static partial class DistributedCacheExtensions
     /// <summary>
     /// Try to set a value in the specified cache with the specified key. A return value indicates whether the operation succeeded.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="cache"></param>
-    /// <param name="key"></param>
-    /// <param name="value"></param>
-    /// <param name="options"></param>
+    /// <typeparam name="T">The type of the value to serialize.</typeparam>
+    /// <param name="cache">The cache in which to store the data.</param>
+    /// <param name="key">The key to store the data in.</param>
+    /// <param name="value">The data to store in the cache.</param>
+    /// <param name="options">Optional. The cache options for the entry.</param>
     /// <returns>An error is returned if value was not set successfully; otherwise null.</returns>
     public static string? TrySet<T>(this IDistributedCache cache, string key, T value, DistributedCacheEntryOptions? options = default)
     {
@@ -89,12 +89,12 @@ public static partial class DistributedCacheExtensions
     /// <summary>
     /// Asynchronously try to set a value in the specified cache with the specified key. A return value indicates whether the operation succeeded.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="cache"></param>
-    /// <param name="key"></param>
-    /// <param name="value"></param>
-    /// <param name="options"></param>
-    /// <param name="token"></param>
+    /// <typeparam name="T">The type of the value to serialize.</typeparam>
+    /// <param name="cache">The cache in which to store the data.</param>
+    /// <param name="key">The key to store the data in.</param>
+    /// <param name="value">The data to store in the cache.</param>
+    /// <param name="options">Optional. The cache options for the entry.</param>
+    /// <param name="token">Optional. A <see cref="CancellationToken" /> to cancel the operation.</param>
     /// <returns>An error is returned if value was not set successfully; otherwise null.</returns>
     public static async ValueTask<string?> TrySetAsync<T>(this IDistributedCache cache, string key, T value, DistributedCacheEntryOptions? options = default, CancellationToken token = default)
     {
