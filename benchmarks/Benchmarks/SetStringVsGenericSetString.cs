@@ -1,8 +1,7 @@
-﻿using System.Text;
-using Alyio.Extensions.Caching;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text;
 
 namespace Benchmarks;
 

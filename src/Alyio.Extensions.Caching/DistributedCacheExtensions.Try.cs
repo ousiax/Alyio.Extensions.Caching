@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using static Alyio.Extensions.Caching.DeSerializer;
 
-namespace Alyio.Extensions.Caching;
-
 /// <summary>
 /// Extension methods for <see cref="IDistributedCache"/>.
 /// </summary>
