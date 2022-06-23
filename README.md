@@ -2,20 +2,14 @@
 
 ![Build Status](https://github.com/qqbuby/Alyio.Extensions.Caching/actions/workflows/ci.yml/badge.svg?branch=main)
 
-*Alyio.Extensions.Caching* provides extension methods for `IDistributedCache` to serialize a POCO from/to byte array.
+*Alyio.Extensions.Caching* provides extension methods for [IDistributedCache](https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.caching.distributed.idistributedcache) to serialize a POCO from/to byte array.
 
 ```sh
-dotnet add package Alyio.Extensions.Caching --version 2.0.0
+dotnet add package Alyio.Extensions.Caching --version 2.0.1
 ```
 
 ```cs
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.DependencyInjection;
-using Alyio.Extensions.Caching;
-
-var services = new ServiceCollection()
-    .AddDistributedMemoryCache()
-    .BuildServiceProvider();
 
 var cache = services.GetRequiredService<IDistributedCache>();
 
@@ -43,6 +37,14 @@ cache.Get<CacheObj>("cacheobj");
 await cache.SetAsync("cacheobj", new CacheObj { MyProperty1 = 1_024 });
 await cache.SetAsync("cacheobj", new CacheObj { MyProperty1 = 1_024 }, new DistributedCacheEntryOptions { });
 await cache.GetAsync<CacheObj>("cacheobj");
+
+cache.TrySet("double", 1_024D);
+cache.TrySet("double", 1_024D, new DistributedCacheEntryOptions { });
+cache.TryGet<double>("double");
+
+await cache.TrySetAsync("double", 1_024D);
+await cache.TrySetAsync("double", 1_024D, new DistributedCacheEntryOptions { });
+await cache.TryGetAsync<double>("double");
 
 // ....
 
