@@ -43,7 +43,7 @@ public static partial class DistributedCacheExtensions
     /// <param name="key">The key to get the stored data for.</param>
     /// <param name="token">Optional. A <see cref="CancellationToken" /> to cancel the operation.</param>
     /// <returns>A task that gets the value from the stored cache key.</returns>
-    /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="key"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="key"/> is null.</exception>
     public static async ValueTask<T?> GetAsync<T>(this IDistributedCache cache, string? key, CancellationToken token = default)
     {
         if (key is null)

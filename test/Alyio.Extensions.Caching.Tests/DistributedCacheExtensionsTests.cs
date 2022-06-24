@@ -108,14 +108,14 @@ public class DistributedCacheExtensionsTests
         var cache = services.GetRequiredService<IDistributedCache>();
         var options = new DistributedCacheEntryOptions { };
 
-        await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+        _ = await Assert.ThrowsAsync<ArgumentNullException>(async () =>
             {
-                await cache.GetAsync<string>(null);
+                _ = await cache.GetAsync<string>(null);
             });
 
-        await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+        _ = await Assert.ThrowsAsync<ArgumentNullException>(async () =>
           {
-              await cache.SetAsync<string>(null, string.Empty, options);
+              await cache.SetAsync(null, string.Empty, options);
           });
 
         await Assert.ThrowsAsync<ArgumentNullException>(async () =>
@@ -132,20 +132,11 @@ public class DistributedCacheExtensionsTests
         var cache = services.GetRequiredService<IDistributedCache>();
         var options = new DistributedCacheEntryOptions { };
 
-        Assert.Throws<ArgumentNullException>(() =>
-        {
-            cache.Get<string>(null);
-        });
+        _ = Assert.Throws<ArgumentNullException>(() => _ = cache.Get<string>(null));
 
-        Assert.Throws<ArgumentNullException>(() =>
-        {
-            cache.Set<string>(null, string.Empty, options);
-        });
+        _ = Assert.Throws<ArgumentNullException>(() => cache.Set(null, string.Empty, options));
 
-        Assert.Throws<ArgumentNullException>(() =>
-        {
-            cache.Set<string>(string.Empty, null, options);
-        });
+        _ = Assert.Throws<ArgumentNullException>(() => cache.Set<string>(string.Empty, null, options));
     }
 
     [Fact]
