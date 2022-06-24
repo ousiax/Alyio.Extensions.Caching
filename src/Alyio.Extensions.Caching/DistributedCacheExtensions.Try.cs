@@ -5,7 +5,7 @@ namespace Microsoft.Extensions.Caching.Distributed;
 /// <summary>
 /// Extension methods for <see cref="IDistributedCache"/>.
 /// </summary>
-static partial class DistributedCacheExtensions
+public static partial class DistributedCacheExtensions
 {
     /// <summary>
     /// Try to get a value from the specified cache with the specified key. A return value indicates whether the operation succeeded.

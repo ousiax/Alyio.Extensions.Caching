@@ -7,7 +7,7 @@ namespace Microsoft.Extensions.Caching.Distributed;
 /// </summary>
 public static partial class DistributedCacheExtensions
 {
-    private readonly static DistributedCacheEntryOptions EmptyOptions = new DistributedCacheEntryOptions { };
+    private static readonly DistributedCacheEntryOptions EmptyOptions = new() { };
 
     /// <summary>
     /// Gets a value from the specified cache with the specified key.
@@ -16,7 +16,7 @@ public static partial class DistributedCacheExtensions
     /// <param name="cache">The cache in which to store the data.</param>
     /// <param name="key">The key to get the stored data for.</param>
     /// <returns>The value from the stored cache key.</returns>
-    /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="key"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="key"/> is null.</exception>
     public static T? Get<T>(this IDistributedCache cache, string? key)
     {
         if (key is null)
@@ -70,7 +70,7 @@ public static partial class DistributedCacheExtensions
     /// <param name="key">The key to store the data in.</param>
     /// <param name="value">The data to store in the cache.</param>
     /// <param name="options">Optional. The cache options for the entry.</param>
-    /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="key"/> or <paramref name="value"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="key"/> or <paramref name="value"/> is null.</exception>
     public static void Set<T>(this IDistributedCache cache, string? key, T? value, DistributedCacheEntryOptions? options = default)
     {
         if (key is null)
@@ -96,8 +96,7 @@ public static partial class DistributedCacheExtensions
     /// <param name="value">The data to store in the cache.</param>
     /// <param name="options">Optional. The cache options for the entry.</param>
     /// <param name="token">Optional. A <see cref="CancellationToken" /> to cancel the operation.</param>
-    /// <exception cref="ArgumentNullException">Thrown when key or value is null.</exception>
-    /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="key"/> or <paramref name="value"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="key"/> or <paramref name="value"/> is null.</exception>
     public static async ValueTask SetAsync<T>(this IDistributedCache cache, string? key, T? value, DistributedCacheEntryOptions? options = default, CancellationToken token = default)
     {
         if (key is null)

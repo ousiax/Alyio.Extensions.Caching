@@ -35,11 +35,16 @@ internal static class SimpleDeSerializer
 
                 TypeCode.DateTime => BitConverter.GetBytes(((DateTime)Convert.ChangeType(data, TypeCode.DateTime, CultureInfo.InvariantCulture)).ToBinary()),
 
-                _ => throw new NotSupportedException()
+                TypeCode.Byte => throw new NotImplementedException(),
+                TypeCode.DBNull => throw new NotImplementedException(),
+                TypeCode.Empty => throw new NotImplementedException(),
+                TypeCode.Object => throw new NotImplementedException(),
+                TypeCode.SByte => throw new NotImplementedException(),
+                _ => throw new NotImplementedException()
             };
             return true;
         }
-        catch (NotSupportedException)
+        catch (NotImplementedException)
         {
             bytes = Array.Empty<byte>();
             return false;
@@ -72,13 +77,17 @@ internal static class SimpleDeSerializer
                 TypeCode.Decimal => Convert.ToDecimal(Encoding.UTF8.GetString(bytes), CultureInfo.InvariantCulture),
 
                 TypeCode.DateTime => DateTime.FromBinary(BitConverter.ToInt64(bytes, 0)),
-
-                _ => throw new NotSupportedException()
+                TypeCode.Byte => throw new NotImplementedException(),
+                TypeCode.DBNull => throw new NotImplementedException(),
+                TypeCode.Empty => throw new NotImplementedException(),
+                TypeCode.Object => throw new NotImplementedException(),
+                TypeCode.SByte => throw new NotImplementedException(),
+                _ => throw new NotImplementedException()
             };
             val = (T)result;
             return true;
         }
-        catch (NotSupportedException)
+        catch (NotImplementedException)
         {
             val = default;
             return false;

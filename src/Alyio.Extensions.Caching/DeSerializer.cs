@@ -1,12 +1,13 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+
 using static Alyio.Extensions.Caching.SimpleDeSerializer;
 
 namespace Alyio.Extensions.Caching;
 
 internal static class DeSerializer
 {
-    private static readonly JsonSerializerOptions _jsonSerializerOptions = new() { ReferenceHandler = ReferenceHandler.Preserve };
+    private static readonly JsonSerializerOptions JsonSerializerOptions = new() { ReferenceHandler = ReferenceHandler.Preserve };
 
     public static async ValueTask<byte[]> SerializeAsync<T>(T? data)
     {
@@ -21,7 +22,7 @@ internal static class DeSerializer
         }
 
         using var ms = new MemoryStream();
-        await JsonSerializer.SerializeAsync(ms, data, _jsonSerializerOptions).ConfigureAwait(false);
+        await JsonSerializer.SerializeAsync(ms, data, JsonSerializerOptions).ConfigureAwait(false);
         return ms.ToArray();
     }
 
@@ -32,6 +33,6 @@ internal static class DeSerializer
             return val;
         }
 
-        return await JsonSerializer.DeserializeAsync<T>(new MemoryStream(bytes), _jsonSerializerOptions).ConfigureAwait(false);
+        return await JsonSerializer.DeserializeAsync<T>(new MemoryStream(bytes), JsonSerializerOptions).ConfigureAwait(false);
     }
 }
