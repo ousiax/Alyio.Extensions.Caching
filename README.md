@@ -5,7 +5,7 @@
 *Alyio.Extensions.Caching* provides extension methods for [IDistributedCache](https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.caching.distributed.idistributedcache) to serialize a POCO from/to byte array.
 
 ```sh
-dotnet add package Alyio.Extensions.Caching --version 2.0.1
+dotnet add package Alyio.Extensions.Caching --version 2.0.2
 ```
 
 ```cs
