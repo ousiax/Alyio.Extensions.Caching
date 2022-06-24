@@ -12,7 +12,7 @@ internal static class DeSerializer
     {
         if (data is null)
         {
-            return new byte[] { };
+            return Array.Empty<byte>();
         }
 
         if (TryGetBytes(data, out var bytes))

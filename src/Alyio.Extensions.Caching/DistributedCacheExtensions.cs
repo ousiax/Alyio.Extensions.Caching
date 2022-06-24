@@ -31,7 +31,7 @@ public static partial class DistributedCacheExtensions
         }
         else
         {
-            return DeserializeAsync<T>(bytes).Result;
+            return DeserializeAsync<T>(bytes).AsTask().Result;
         }
     }
 
@@ -83,7 +83,7 @@ public static partial class DistributedCacheExtensions
             throw new ArgumentNullException(nameof(value));
         }
 
-        var bytes = SerializeAsync(value).Result;
+        var bytes = SerializeAsync(value).AsTask().Result;
         cache.Set(key, bytes, options ?? EmptyOptions);
     }
 

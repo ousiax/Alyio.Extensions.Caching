@@ -1,10 +1,11 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
-using static Alyio.Extensions.Caching.DeSerializer;
+﻿using static Alyio.Extensions.Caching.DeSerializer;
+
+namespace Microsoft.Extensions.Caching.Distributed;
 
 /// <summary>
 /// Extension methods for <see cref="IDistributedCache"/>.
 /// </summary>
-public static partial class DistributedCacheExtensions
+static partial class DistributedCacheExtensions
 {
     /// <summary>
     /// Try to get a value from the specified cache with the specified key. A return value indicates whether the operation succeeded.
@@ -21,7 +22,7 @@ public static partial class DistributedCacheExtensions
 
             if (bytes != null)
             {
-                var value = DeserializeAsync<T>(bytes).Result;
+                var value = DeserializeAsync<T>(bytes).AsTask().Result;
                 return (value, null);
             }
 
@@ -73,7 +74,7 @@ public static partial class DistributedCacheExtensions
     {
         try
         {
-            var bytes = SerializeAsync(value).Result;
+            var bytes = SerializeAsync(value).AsTask().Result;
             cache.Set(key, bytes, options);
 
             return null;
