@@ -1,6 +1,6 @@
 # Alyio.Extensions.Caching
 
-![Build Status](https://github.com/qqbuby/Alyio.Extensions.Caching/actions/workflows/ci.yml/badge.svg?branch=main)
+![Build Status](https://github.com/ousiax/Alyio.Extensions.Caching/actions/workflows/ci.yml/badge.svg?branch=main)
 
 *Alyio.Extensions.Caching* provides extension methods for [IDistributedCache](https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.caching.distributed.idistributedcache) to serialize a POCO from/to byte array.
 
