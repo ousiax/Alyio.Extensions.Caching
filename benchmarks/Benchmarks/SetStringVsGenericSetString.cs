@@ -32,7 +32,7 @@ public class SetStringVsGenericSetString
     }
 
     [Benchmark]
-    public string SetString()
+    public string? SetString()
     {
         _cache.SetString(_data, _data, _options);
         return _cache.GetString(_data);

@@ -9,7 +9,7 @@ internal sealed class NotImplementedDistributedCache : IDistributedCache
         throw new NotImplementedException();
     }
 
-    public Task<byte[]> GetAsync(string key, CancellationToken token = default)
+    public Task<byte[]?> GetAsync(string key, CancellationToken token = default)
     {
         throw new NotImplementedException();
     }
